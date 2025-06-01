@@ -1,5 +1,0 @@
-# Chart.yaml
-apiVersion: v1
-name: elalert
-description: A Helm chart for deploying elalert in a Kubernetes cluster
-version: 0.1.0
