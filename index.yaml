@@ -1,0 +1,12 @@
+apiVersion: v1
+entries:
+  elalert:
+  - apiVersion: v2
+    created: "2025-06-01T19:39:58.551859906Z"
+    description: A Helm chart for deploying elalert in a Kubernetes cluster
+    digest: b74bd762d2a004bd9ae730a7ce7574114ac42fb30fd6e87b8720cc83614b8a33
+    name: elalert
+    urls:
+    - elalert-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-06-01T19:39:58.551865277Z"
