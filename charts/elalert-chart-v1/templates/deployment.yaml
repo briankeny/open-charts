@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name | default .Values.app.name }}
+  namespace: {{ .Values.namespace | default "default" }}
+  labels:
+    app: {{ .Values.app.name }}
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+    spec:
+      {{- if .Values.app.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.app.imagePullSecrets }}
+      {{- end }}
+      volumes:
+        - name: rules-volume
+          configMap:
+            name: {{ .Values.rules.configMapName }}
+
+      containers:
+        - name: {{ .Release.Name | default .Values.app.name }}
+          image: "{{ .Values.app.image }}"
+          imagePullPolicy: "{{ .Values.app.pullPolicy }}"
+          {{- if .Values.app.resources }}
+          resources:
+            requests:
+              cpu: {{ .Values.app.resources.requests.cpu }}
+              memory: {{ .Values.app.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.app.resources.limits.cpu }}
+              memory: {{ .Values.app.resources.limits.memory }}
+          {{- end }}
+          volumeMounts:
+            - name: rules-volume
+              # mounted read-only by default
+              mountPath: /app/rules   
+          env:
+            - name: rules_folder
+              value: {{ .Values.rules.mountPath }}
+            {{- range $key, $value := .Values.secrets.env }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Release.Name | default $.Values.app.name }}-secrets
+                  key: {{ $key }}
+            {{- end }}
