@@ -24,6 +24,12 @@ spec:
           configMap:
             name: {{ .Values.rules.configMapName }}
 
+        {{- if .Values.app.persistence.enabled }}
+        - name: sql-data
+          persistentVolumeClaim:
+              claimName: {{ .Release.Name | default .Values.app.name }}-pvc
+        {{- end }}
+
       containers:
         - name: {{ .Release.Name | default .Values.app.name }}
           image: "{{ .Values.app.image }}"
@@ -39,11 +45,18 @@ spec:
           {{- end }}
           volumeMounts:
             - name: rules-volume
-              # mounted read-only by default
               mountPath: /app/rules   
+           
+            {{- if .Values.app.persistence.enabled }}
+            - name: sql-data
+              mountPath: /app/data
+            {{- end }}
+
           env:
             - name: rules_folder
               value: {{ .Values.rules.mountPath }}
+            - name: sqlite_db_path
+              value: /app/data/alerts.db
             {{- range $key, $value := .Values.secrets.env }}
             - name: {{ $key }}
               valueFrom:

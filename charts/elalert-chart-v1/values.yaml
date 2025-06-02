@@ -13,7 +13,7 @@ app:
     enabled: true
     accessMode: ReadWriteOnce
     size: 1Gi
-    storageClass: "standard"
+    storageClass: "default"
   resources:
     requests:
       cpu: "100m"
@@ -53,3 +53,4 @@ secrets:
    cleanup_schedule: '12:00,23:00'
    max_alerts_per_batch: '5'
    ignored_alert_keywords:  ''
+   storage_type: 'sqlite' 
