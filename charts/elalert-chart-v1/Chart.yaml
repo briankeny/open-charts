@@ -1,5 +1,5 @@
 # Chart.yaml
-apiVersion: v1
+apiVersion: v2
 name: elalert
 description: A Helm chart for deploying Elalert Elastic Search Alerting Tool in a Kubernetes cluster
 version: 0.1.0
