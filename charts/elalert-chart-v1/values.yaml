@@ -13,7 +13,7 @@ app:
     enabled: true
     accessMode: ReadWriteOnce
     size: 1Gi
-    storageClass: "standard"
+    storageClass: "default"
   resources:
     requests:
       cpu: "100m"
@@ -38,10 +38,10 @@ deployment:
 secrets:
   env:
    elastic_api_key: ''
-   elastic_url: 'https://elastic.example.com' 
+   elastic_url: 'https://elastic.example.com'
    es_index: '.alerts-*'
    webhook_url: ''
-   app_log_file: 'Elalert.log' 
+   app_log_file: 'Elalert.log'
    alerts_save_file: 'elalert.json'
    save: 'true'
    rules_folder: 'rules'
@@ -49,7 +49,8 @@ secrets:
    timeframe: '30'
    verbose: 'false'
    pytz_timezone: 'Africa/Nairobi'
-   hits_size: '1000' 
+   hits_size: '1000'
    cleanup_schedule: '12:00,23:00'
    max_alerts_per_batch: '5'
    ignored_alert_keywords:  ''
+   storage_type: 'sqlite'
